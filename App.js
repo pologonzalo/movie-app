@@ -1,21 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+// In App.js in a new project
 
-export default function App() {
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import _ from "lodash";
+import Toast from "react-native-toast-message";
+import { useNetInfo } from "@react-native-community/netinfo";
+
+import HomeScreen from "./src/screens/home";
+import DetailsScreen from "./src/screens/details";
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  const { isConnected } = useNetInfo();
+
+  React.useEffect(() => {
+    if (!isConnected)
+      Toast.show({
+        type: "error",
+        position: "bottom",
+        text1: "No internet connection",
+      });
+  }, [isConnected]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Details" component={DetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      <Toast />
+    </>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;

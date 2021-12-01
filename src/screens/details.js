@@ -149,7 +149,7 @@ function DetailsScreen() {
         >
           <Text style={{ fontSize: 20 }}>
             {!_.isEmpty(favoriteMovies) && favoriteMovies[id]
-              ? "Already Favorite"
+              ? "Remove from Favorite"
               : "Mark as Favorite"}
           </Text>
         </TouchableOpacity>
